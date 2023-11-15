@@ -1,3 +1,4 @@
+import { fakeOrders } from "@/src/DataBase/fake";
 import { Order } from "../../route";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
@@ -10,13 +11,32 @@ import { NextResponse } from "next/server";
 // }
 
 export async function PUT(req: Request) {
-  const body = req.json();
-  //   const { searchParams } = new URL(req.url ? req.url : "");
-  console.log(body);
-  console.log(req);
+  try {
+    const cutURL = new URL(req.url).pathname.split("/");
+    const id = cutURL[3];
 
-  // const id = searchParams.
-  return NextResponse.json({
-    lol: "ho2",
-  });
+    const order = fakeOrders.find((ord) => ord.id === id);
+
+    if (order) {
+      return NextResponse.json({
+        id: id,
+        data: order,
+      });
+    } else {
+      return NextResponse.json(
+        {
+          error: `Заявка с ID ${id} не найдена.`,
+        },
+        { status: 404 }
+      );
+    }
+  } catch (error) {
+    console.error("Error handling request:", error);
+    return NextResponse.json(
+      {
+        error: "Internal Server Error",
+      },
+      { status: 500 }
+    );
+  }
 }
