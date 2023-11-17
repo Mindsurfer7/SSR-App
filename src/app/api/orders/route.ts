@@ -2,8 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import { fakeOrders } from "../../../DataBase/fake";
 
-//?lim=1&off=19
-
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const { searchParams } = new URL(req.url ? req.url : "");
   const limit = parseInt(searchParams.get("lim") || "10", 10);

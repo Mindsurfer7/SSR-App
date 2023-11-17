@@ -1,6 +1,14 @@
 "use client";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
-import { Flex, HStack, MenuButton, Spinner, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  MenuButton,
+  Spinner,
+  Text,
+  Toast,
+  useToast,
+} from "@chakra-ui/react";
 import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import Item from "./Item";
 import Pagination, { Pages } from "./Pagination";
@@ -16,6 +24,14 @@ import { useState } from "react";
 import { Preloader } from "../components/preloader";
 import { Error } from "../components/error";
 
+type ErrorResponse = {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+};
+
 interface QueryResponse {
   orders: Order[];
   totalCount: number;
@@ -23,6 +39,7 @@ interface QueryResponse {
 const limit = 2;
 
 export default function Orders() {
+  const toast = useToast();
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("Выберите статус");
 
@@ -36,20 +53,37 @@ export default function Orders() {
     },
   });
 
-  const acceptOrder = async (orderId: string) => {
-    try {
-      const response = await axios.put(`/api/orders/${orderId}/accept`);
-      console.log("Mutation succeeded!", response.data);
-    } catch (error) {
-      console.error("Mutation failed!", error);
-    }
+  const acceptOrder = async (orderID: string): Promise<Order> => {
+    const response = await axios.put<Order>(`/api/orders/${orderID}/accept`); //
+    console.log(response.data);
+
+    return response.data;
   };
 
-  const handleAcceptAllOrders = () => {
-    data?.orders.forEach((order) => {
-      console.log("accepting an order" + order.id);
+  //ПРОВЕРИТЬ ОТВЕТ С ОШИБКОЙ! какова структура ответа ошибки у аксиос
+  const { mutate: updateOrder } = useMutation<Order, ErrorResponse, string>({
+    mutationFn: acceptOrder,
+    onError: (e) => {
+      toast({
+        title: "error happened",
+        description: `${e}`,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+    },
+  });
+  // , {
+  //   onSuccess: (response: AxiosResponse<Order>) => {
+  //     console.log("Mutation succeeded!", data);
+  //     return response.data;
+  //   },
+  //
 
-      acceptOrder(order.id);
+  const handleAcceptAllOrders = () => {
+    data?.orders.forEach((order: Order) => {
+      updateOrder(order.id);
+      console.log("accepting an order" + order.id);
     });
   };
 

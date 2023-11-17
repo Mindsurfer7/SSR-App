@@ -1,5 +1,4 @@
 import { fakeOrders } from "@/src/DataBase/fake";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 
 export async function PUT(req: Request) {
