@@ -1,14 +1,6 @@
 import { fakeOrders } from "@/src/DataBase/fake";
-import { Order } from "../../route";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
-
-// export async function GET(
-//   request: Request,
-//   { params }: { params: { slug: string } }
-// ) {
-//   const slug = params.slug; // 'a', 'b', or 'c'
-// }
 
 export async function PUT(req: Request) {
   try {

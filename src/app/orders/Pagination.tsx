@@ -1,26 +1,44 @@
 "use client";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EmailIcon,
-  MoonIcon,
-  StarIcon,
-  SunIcon,
-} from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  HStack,
-  MenuButton,
-  Stack,
-  Tab,
-  Tag,
-  Text,
-  Badge,
-  useColorModeValue,
-  Container,
-} from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { Box, HStack, Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
+
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number | undefined;
+  onChange: (page: number) => void;
+}
+
+export default function Pagination({
+  onChange,
+  totalPages,
+  currentPage,
+}: PaginationProps) {
+  return (
+    <HStack justifyContent="space-between" marginTop="10px" width="100%">
+      <Text fontWeight="medium" opacity={0.7}>
+        Страница {currentPage} из {totalPages}
+      </Text>
+      <HStack spacing={2}>
+        <Button
+          onClick={() => onChange(currentPage - 1)}
+          disabled={true}
+          isDisabled={currentPage === 1}
+        >
+          {"<"}
+        </Button>
+
+        <Button>{currentPage}</Button>
+        <Button
+          onClick={() => onChange(currentPage + 1)}
+          isDisabled={currentPage === totalPages}
+        >
+          {">"}
+        </Button>
+      </HStack>
+    </HStack>
+  );
+}
 
 export function Pages() {
   return (
@@ -47,35 +65,5 @@ export function Pages() {
         </Box>
       </HStack>
     </>
-  );
-}
-
-export default function Pagination() {
-  return (
-    <HStack justifyContent="space-between" marginTop="10px" width="100%">
-      <Text fontWeight="medium" opacity={0.7}>
-        {" "}
-        Страница 1 из 1
-      </Text>
-      <HStack spacing={2}>
-        <Button
-        // onClick={() => onPageChange(currentPage - 1)}
-        // disabled={currentPage === 1}
-        >
-          {"<"}
-        </Button>
-        <Button
-        // isDisabled
-        >
-          {1}
-        </Button>
-        <Button
-        // onClick={() => onPageChange(currentPage + 1)}
-        // disabled={currentPage === totalPages}
-        >
-          {">"}
-        </Button>
-      </HStack>
-    </HStack>
   );
 }

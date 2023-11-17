@@ -1,30 +1,73 @@
 "use client";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
-import { Flex, HStack, MenuButton, Text } from "@chakra-ui/react";
+import { Flex, HStack, MenuButton, Spinner, Text } from "@chakra-ui/react";
 import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import Item from "./Item";
 import Pagination, { Pages } from "./Pagination";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
+import {
+  UseMutationResult,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
+import { Order } from "../types/orders";
+import { useState } from "react";
+import { Preloader } from "../components/preloader";
+import { Error } from "../components/error";
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-// const arr = [1];
+interface QueryResponse {
+  orders: Order[];
+  totalCount: number;
+}
+const limit = 2;
 
 export default function Orders() {
-  const {
-    data: orderList,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["orders"],
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState("Выберите статус");
+
+  const { data, isLoading, error } = useQuery<QueryResponse>({
+    queryKey: ["orders", page, filter],
     queryFn: async () => {
-      const response = await axios.get("/api/orders");
+      const response = await axios.get(
+        `/api/orders?lim=${limit}&off=${(page - 1) * limit}&filt=${filter}`
+      );
       return response.data;
     },
   });
 
-  console.log(orderList);
+  const acceptOrder = async (orderId: string) => {
+    try {
+      const response = await axios.put(`/api/orders/${orderId}/accept`);
+      console.log("Mutation succeeded!", response.data);
+    } catch (error) {
+      console.error("Mutation failed!", error);
+    }
+  };
+
+  const handleAcceptAllOrders = () => {
+    data?.orders.forEach((order) => {
+      console.log("accepting an order" + order.id);
+
+      acceptOrder(order.id);
+    });
+  };
+
+  let totalPages;
+  if (data) {
+    totalPages = Math.ceil(data?.totalCount / limit);
+  }
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+  const handleStatusChange = (status: string) => {
+    setFilter(status);
+  };
+
+  if (error) {
+    return <Error error={error.message} />;
+  }
 
   return (
     <Flex
@@ -66,17 +109,21 @@ export default function Orders() {
               rightIcon={<ChevronDownIcon color="white" />}
               as={Button}
             >
-              Выберите статус
+              {filter}
             </MenuButton>
             <MenuList>
-              <MenuItem>Одобрено</MenuItem>
-              <MenuItem>Отклонено</MenuItem>
-              <MenuItem>На проверке</MenuItem>
+              <MenuItem onClick={() => handleStatusChange("одобрено")}>
+                Одобрено
+              </MenuItem>
+              <MenuItem onClick={() => handleStatusChange("отклонено")}>
+                Отклонено
+              </MenuItem>
+              <MenuItem onClick={() => handleStatusChange("на проверке")}>
+                На проверке
+              </MenuItem>
             </MenuList>
           </Menu>
-          <Button
-          // colorScheme="teal"
-          >
+          <Button onClick={handleAcceptAllOrders}>
             Выбрать к одобрению/отклонению
           </Button>
         </HStack>
@@ -88,24 +135,32 @@ export default function Orders() {
         borderRadius={"22px"}
         background="white"
         alignItems="center"
-        // justifyContent={"center"}
         flexDirection="column"
         boxShadow="lg"
         marginBottom="40px"
         gap="30px"
       >
-        {arr.map((el) => (
-          <Item />
-        ))}
+        {data ? (
+          data?.orders.map((ord) => (
+            <Item
+              key={ord.id}
+              id={ord.id}
+              title={ord.title}
+              price={ord.price}
+              quantity={ord.quantity}
+              status={ord.status}
+            />
+          ))
+        ) : (
+          <Preloader />
+        )}
 
-        <Pagination />
+        <Pagination
+          currentPage={page}
+          onChange={handlePageChange}
+          totalPages={totalPages}
+        />
       </Flex>
     </Flex>
   );
-}
-
-{
-  /*    <Tag size={"md"} variant="solid" colorScheme="#FF0000">
-            На проверке
-          </Tag> */
 }

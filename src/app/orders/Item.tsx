@@ -7,23 +7,34 @@ import {
   StarIcon,
   SunIcon,
 } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  HStack,
-  MenuButton,
-  Stack,
-  Tab,
-  Tag,
-  Text,
-  Badge,
-  useColorModeValue,
-  Container,
-  Spacer,
-} from "@chakra-ui/react";
-import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, Tag, Text, Badge } from "@chakra-ui/react";
+import { Status } from "../types/orders";
 
-export default function Item() {
+interface ItemProps {
+  // orders: Order[];
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
+  status: Status;
+  description?: string;
+}
+
+export default function Item({ title, price, status }: ItemProps) {
+  let bgColor;
+
+  switch (status) {
+    case "на проверке":
+      bgColor = "#FFDEAD";
+      break;
+    case "одобрено":
+      bgColor = "#00FF00";
+      break;
+    case "отклонено":
+      bgColor = "#FF0000";
+      break;
+  }
+
   return (
     <Stack
       width={"100%"}
@@ -59,13 +70,13 @@ export default function Item() {
           <Flex alignItems="center" marginBottom="20px">
             <HStack align="center">
               <Text fontSize="2xl" fontWeight="bold">
-                Все о путешествиях
+                {title}
               </Text>
               <Badge
                 borderRadius="8px"
                 px={2}
                 py={1}
-                bg="#FFDEAD"
+                bg={bgColor} //"#FFDEAD"
                 fontWeight="400"
               >
                 <Flex alignItems="center">
@@ -75,7 +86,7 @@ export default function Item() {
                     fontWeight="medium"
                     textTransform="none"
                   >
-                    На проверке
+                    {status}
                   </Text>
                 </Flex>
               </Badge>
@@ -131,10 +142,9 @@ export default function Item() {
             </Tag>
           </HStack>
         </Stack>
-        {/* <Spacer /> */}
 
         <Box as="span" fontWeight="bold" fontSize="2xl">
-          220,00 USDT
+          {price?.toFixed(2)} USDT
         </Box>
       </Flex>
     </Stack>
