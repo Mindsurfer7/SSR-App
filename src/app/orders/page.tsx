@@ -1,33 +1,31 @@
 "use client";
-import {
-  ChevronLeftIcon,
-  EmailIcon,
-  MoonIcon,
-  StarIcon,
-  SunIcon,
-} from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  HStack,
-  MenuButton,
-  Stack,
-  Tab,
-  Tag,
-  Text,
-  Badge,
-  useColorModeValue,
-  Container,
-} from "@chakra-ui/react";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { Flex, HStack, MenuButton, Text } from "@chakra-ui/react";
 import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import Item from "./Item";
 import Pagination, { Pages } from "./Pagination";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 // const arr = [1];
 
 export default function Orders() {
+  const {
+    data: orderList,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const response = await axios.get("/api/orders");
+      return response.data;
+    },
+  });
+
+  console.log(orderList);
+
   return (
     <Flex
       flexDirection={"column"}
