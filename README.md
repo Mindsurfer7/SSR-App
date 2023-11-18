@@ -25,21 +25,37 @@ http://localhost:3000/orders
 
 # Верстка
 
+### С одним заказом
+
 ![С одним заказом](screenshots/image_2023-11-14_10-45-12.png)
 
+### С многими заказами
+
 ![С многими заказами](screenshots/image_2023-11-14_10-47-09.png)
+
+### Низ страницы
 
 ![Низ страницы](screenshots/image_2023-11-14_10-47-21.png)
 
 # Запросы
 
+### Все заказы
+
 ![Все заказы](screenshots/image_2023-11-15_11-37-48.png)
+
+### С лимитом
 
 ![С лимитом](screenshots/image_2023-11-15_11-38-08.png)
 
+### С лимитом и оффсетом
+
 ![С лимитом и оффсетом](screenshots/image_2023-11-15_11-38-54.png)
 
+### Проверка с неправильным ID
+
 ![Проверка с неправильным айди](screenshots/image_2023-11-15_11-39-41.png)
+
+### Конкретная заявка по ID
 
 ![Конкретная заявка по айди](screenshots/image_2023-11-15_11-40-19.png)
 
@@ -49,12 +65,8 @@ http://localhost:3000/orders
 
 ### Документация функционала
 
-<video width="320" height="240" controls>
-  <source src="screenshots/appfunctions.mp4" type="video/mp4">
-</video>
+![Описание видео](screenshots/appfunctions.mp4)
 
 ### Проверка с неправильным адресом запроса
 
-<video width="320" height="240" controls>
-  <source src="screenshots/errorchecking.mp4" type="video/mp4">
-</video>
+![Описание видео](screenshots/errorchecking.mp4)
