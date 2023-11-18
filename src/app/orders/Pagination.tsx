@@ -1,7 +1,8 @@
 "use client";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, BoxProps, HStack, Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
+import { NavItem } from "../components/navItem";
 
 interface PaginationProps {
   currentPage: number;
@@ -22,7 +23,6 @@ export default function Pagination({
       <HStack spacing={2}>
         <Button
           onClick={() => onChange(currentPage - 1)}
-          disabled={true}
           isDisabled={currentPage === 1}
         >
           {"<"}
@@ -42,28 +42,14 @@ export default function Pagination({
 
 export function Pages() {
   return (
-    <>
-      <HStack spacing={2}>
-        <Box as="span">
-          Главная
-          <ChevronRightIcon boxSize={5} />
-        </Box>
-        <Box as="span">
-          Рекламодателям
-          <ChevronRightIcon boxSize={5} />
-        </Box>
-        <Box as="span">
-          Заказы
-          <ChevronRightIcon boxSize={5} />
-        </Box>
-        <Box as="span">
-          Заказ
-          <ChevronRightIcon boxSize={5} />
-        </Box>
-        <Box as="span" fontWeight="bold">
-          Заявки{" "}
-        </Box>
-      </HStack>
-    </>
+    <HStack spacing={2}>
+      <NavItem>Главная</NavItem>
+      <NavItem>Рекламодателям</NavItem>
+      <NavItem>Заказы</NavItem>
+      <NavItem>Заказ</NavItem>
+      <Box as="span" fontWeight="bold">
+        Заявки
+      </Box>
+    </HStack>
   );
 }

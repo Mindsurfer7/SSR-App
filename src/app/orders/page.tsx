@@ -1,49 +1,30 @@
 "use client";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
-import {
-  Flex,
-  HStack,
-  MenuButton,
-  Spinner,
-  Text,
-  Toast,
-  useToast,
-} from "@chakra-ui/react";
+import { Flex, HStack, MenuButton, Text, useToast } from "@chakra-ui/react";
 import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
-import Item from "./Item";
 import Pagination, { Pages } from "./Pagination";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import axios, { AxiosResponse } from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  UseMutationResult,
-  useMutation,
-  useQuery,
-} from "@tanstack/react-query";
-import { Order } from "../types/orders";
+  ErrorResponse,
+  Order,
+  OrderAcceptResponse,
+  QueryResponse,
+} from "../types/orders";
 import { useState } from "react";
 import { Preloader } from "../components/preloader";
 import { Error } from "../components/error";
+import OrderItem from "./orderItem";
 
-type ErrorResponse = {
-  response: {
-    data: {
-      message: string;
-    };
-  };
-};
-
-interface QueryResponse {
-  orders: Order[];
-  totalCount: number;
-}
-const limit = 2;
+const limit = 10;
 
 export default function Orders() {
-  const toast = useToast();
-  const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("Выберите статус");
+  const [page, setPage] = useState(1);
+  const toast = useToast();
 
-  const { data, isLoading, error } = useQuery<QueryResponse>({
+  const { data, error } = useQuery<QueryResponse>({
     queryKey: ["orders", page, filter],
     queryFn: async () => {
       const response = await axios.get(
@@ -53,32 +34,33 @@ export default function Orders() {
     },
   });
 
-  const acceptOrder = async (orderID: string): Promise<Order> => {
-    const response = await axios.put<Order>(`/api/orders/${orderID}/accept`); //
-    console.log(response.data);
-
+  const acceptOrder = async (orderID: string): Promise<OrderAcceptResponse> => {
+    const response = await axios.put<OrderAcceptResponse>(
+      `/api/orders/${orderID}/accept`
+    );
     return response.data;
   };
 
-  //ПРОВЕРИТЬ ОТВЕТ С ОШИБКОЙ! какова структура ответа ошибки у аксиос
-  const { mutate: updateOrder } = useMutation<Order, ErrorResponse, string>({
+  const { mutate: updateOrder } = useMutation<
+    OrderAcceptResponse,
+    ErrorResponse,
+    string
+  >({
     mutationFn: acceptOrder,
     onError: (e) => {
       toast({
-        title: "error happened",
-        description: `${e}`,
+        title: "Error: ",
+        description: `${e.message}`,
         status: "error",
         duration: 4000,
         isClosable: true,
       });
     },
+    onSuccess: (response) => {
+      console.log(response.data);
+      // return response.data;
+    },
   });
-  // , {
-  //   onSuccess: (response: AxiosResponse<Order>) => {
-  //     console.log("Mutation succeeded!", data);
-  //     return response.data;
-  //   },
-  //
 
   const handleAcceptAllOrders = () => {
     data?.orders.forEach((order: Order) => {
@@ -176,7 +158,7 @@ export default function Orders() {
       >
         {data ? (
           data?.orders.map((ord) => (
-            <Item
+            <OrderItem
               key={ord.id}
               id={ord.id}
               title={ord.title}

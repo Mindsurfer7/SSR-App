@@ -7,7 +7,6 @@ export async function PUT(req: Request) {
     const id = cutURL[3];
 
     const order = fakeOrders.find((ord) => ord.id === id);
-
     if (order) {
       return NextResponse.json({
         id: id,
@@ -15,18 +14,15 @@ export async function PUT(req: Request) {
       });
     } else {
       return NextResponse.json(
-        {
-          error: `Заявка с ID ${id} не найдена.`,
-        },
+        { message: `Заявка с ID ${id} не найдена.` },
         { status: 404 }
       );
     }
-  } catch (error) {
-    console.error("Error handling request:", error);
+  } catch (err) {
+    console.error("Error handling request:", err);
+
     return NextResponse.json(
-      {
-        error: "Internal Server Error",
-      },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }

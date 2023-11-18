@@ -8,3 +8,16 @@ export interface Order {
   status: Status;
   description?: string;
 }
+
+export type ErrorResponse = {
+  message: string;
+};
+
+export interface QueryResponse {
+  orders: Order[];
+  totalCount: number;
+}
+export interface OrderAcceptResponse {
+  data: Order;
+  id: string;
+}

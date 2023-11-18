@@ -11,7 +11,6 @@ import { Box, Flex, HStack, Stack, Tag, Text, Badge } from "@chakra-ui/react";
 import { Status } from "../types/orders";
 
 interface ItemProps {
-  // orders: Order[];
   id: string;
   title: string;
   price: number;
@@ -20,7 +19,7 @@ interface ItemProps {
   description?: string;
 }
 
-export default function Item({ title, price, status }: ItemProps) {
+export default function OrderItem({ title, price, status }: ItemProps) {
   let bgColor;
 
   switch (status) {
