@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Accept Order App
 
-## Getting Started
-
-First, run the development server:
+## Локальное развертывание проекта
 
 ```bash
+# Склонировать репозиторий:
+git clone https://github.com/Mindsurfer7/SSR-App
+
+# Установить зависимости:
+npm i
+
+# ИЛИ  с использованием Yarn:
+yarn
+
+# ИЛИ  с использованием PNPM:
+pnpm install
+
+# Запустить проект:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Открыть страницу заказов:
+# Откройте ваш веб-браузер и перейдите по следующему адресу:
+http://localhost:3000/orders
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Верстка
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![С одним заказом](screenshots/image_2023-11-14_10-45-12.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![С многими заказами](screenshots/image_2023-11-14_10-47-09.png)
 
-## Learn More
+![Низ страницы](screenshots/image_2023-11-14_10-47-21.png)
 
-To learn more about Next.js, take a look at the following resources:
+# Запросы
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Все заказы](screenshots/image_2023-11-15_11-37-48.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![С лимитом](screenshots/image_2023-11-15_11-38-08.png)
 
-## Deploy on Vercel
+![С лимитом и оффсетом](screenshots/image_2023-11-15_11-38-54.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Проверка с неправильным айди](screenshots/image_2023-11-15_11-39-41.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Конкретная заявка по айди](screenshots/image_2023-11-15_11-40-19.png)
+
+### Дополнительная проверка
+
+![При оффсете 19 отправляет оставшиеся 3](screenshots/image_2023-11-15_11-42-54.png)
+
+### Документация функционала
+
+<video width="320" height="240" controls>
+  <source src="screenshots/appfunctions.mp4" type="video/mp4">
+</video>
+
+### Проверка с неправильным адресом запроса
+
+<video width="320" height="240" controls>
+  <source src="screenshots/errorchecking.mp4" type="video/mp4">
+</video>

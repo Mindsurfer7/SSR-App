@@ -1,6 +1,5 @@
 "use client";
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, BoxProps, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { NavItem } from "../components/navItem";
 

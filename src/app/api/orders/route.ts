@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fakeOrders } from "../../../DataBase/fake";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url ? req.url : "");
-  const limit = parseInt(searchParams.get("lim") || "10", 10);
-  const offset = parseInt(searchParams.get("off") || "0", 10);
+  const limit = parseInt(searchParams.get("limit") || "10", 10);
+  const offset = parseInt(searchParams.get("offset") || "0", 10);
   const status = searchParams.get("filt");
 
   const filteredOrders =
     status === "Выберите статус"
       ? fakeOrders
-      : fakeOrders.filter((o) => o.status === status);
+      : fakeOrders.filter((order) => order.status === status);
 
   const paginatedOrders = filteredOrders.slice(offset, offset + limit);
 

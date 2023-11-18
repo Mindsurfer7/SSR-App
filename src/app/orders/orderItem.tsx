@@ -20,25 +20,17 @@ interface ItemProps {
 }
 
 export default function OrderItem({ title, price, status }: ItemProps) {
-  let bgColor;
-
-  switch (status) {
-    case "на проверке":
-      bgColor = "#FFDEAD";
-      break;
-    case "одобрено":
-      bgColor = "#00FF00";
-      break;
-    case "отклонено":
-      bgColor = "#FF0000";
-      break;
-  }
+  const bgColors = {
+    "на проверке": "#FFDEAD",
+    одобрено: "#00FF00",
+    отклонено: "#FF0000",
+  };
 
   return (
     <Stack
-      width={"100%"}
-      padding={"20px"}
-      borderRadius={"28px"}
+      width="100%"
+      padding="20px"
+      borderRadius="28px"
       background="white"
       boxShadow="0px 8px 20px rgba(0, 0, 0, 0.2)"
     >
@@ -75,7 +67,7 @@ export default function OrderItem({ title, price, status }: ItemProps) {
                 borderRadius="8px"
                 px={2}
                 py={1}
-                bg={bgColor} //"#FFDEAD"
+                bg={bgColors[status]}
                 fontWeight="400"
               >
                 <Flex alignItems="center">
@@ -91,10 +83,10 @@ export default function OrderItem({ title, price, status }: ItemProps) {
               </Badge>
             </HStack>
           </Flex>
-          <HStack gap={"5px"}>
+          <HStack gap="5px">
             <Tag
-              as={"button"}
-              size={"md"}
+              as="button"
+              size="md"
               variant="solid"
               color="black"
               background="gray.200"
@@ -103,8 +95,8 @@ export default function OrderItem({ title, price, status }: ItemProps) {
               Рф
             </Tag>
             <Tag
-              as={"button"}
-              size={"md"}
+              as="button"
+              size="md"
               variant="solid"
               color="black"
               background="gray.200"
@@ -112,8 +104,8 @@ export default function OrderItem({ title, price, status }: ItemProps) {
               Пост
             </Tag>
             <Tag
-              as={"button"}
-              size={"md"}
+              as="button"
+              size="md"
               variant="solid"
               background="gray.200"
               marginRight="15px"
@@ -123,16 +115,16 @@ export default function OrderItem({ title, price, status }: ItemProps) {
             </Tag>
             <Tag
               background="gray.200"
-              as={"button"}
-              size={"md"}
+              as="button"
+              size="md"
               variant="solid"
               color="black"
             >
               Бизнес и стартапы
             </Tag>
             <Tag
-              as={"button"}
-              size={"md"}
+              as="button"
+              size="md"
               variant="solid"
               background="gray.200"
               color="black"
@@ -141,10 +133,11 @@ export default function OrderItem({ title, price, status }: ItemProps) {
             </Tag>
           </HStack>
         </Stack>
-
-        <Box as="span" fontWeight="bold" fontSize="2xl">
-          {price?.toFixed(2)} USDT
-        </Box>
+        {price && (
+          <Box as="span" fontWeight="bold" fontSize="2xl">
+            {price.toFixed(2)} USDT
+          </Box>
+        )}
       </Flex>
     </Stack>
   );

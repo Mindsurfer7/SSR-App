@@ -4,11 +4,10 @@ import { Flex, HStack, MenuButton, Text, useToast } from "@chakra-ui/react";
 import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import Pagination, { Pages } from "./Pagination";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   ErrorResponse,
-  Order,
   OrderAcceptResponse,
   QueryResponse,
 } from "../types/orders";
@@ -17,18 +16,18 @@ import { Preloader } from "../components/preloader";
 import { Error } from "../components/error";
 import OrderItem from "./orderItem";
 
-const limit = 10;
+const LIMIT = 10;
 
 export default function Orders() {
-  const [filter, setFilter] = useState("Выберите статус");
+  const [status, setStatus] = useState("Выберите статус");
   const [page, setPage] = useState(1);
   const toast = useToast();
 
   const { data, error } = useQuery<QueryResponse>({
-    queryKey: ["orders", page, filter],
+    queryKey: ["orders", page, status],
     queryFn: async () => {
       const response = await axios.get(
-        `/api/orders?lim=${limit}&off=${(page - 1) * limit}&filt=${filter}`
+        `/api/orders?limit=${LIMIT}&offset=${(page - 1) * LIMIT}&filt=${status}`
       );
       return response.data;
     },
@@ -41,7 +40,7 @@ export default function Orders() {
     return response.data;
   };
 
-  const { mutate: updateOrder } = useMutation<
+  const { mutateAsync: updateOrder } = useMutation<
     OrderAcceptResponse,
     ErrorResponse,
     string
@@ -58,27 +57,25 @@ export default function Orders() {
     },
     onSuccess: (response) => {
       console.log(response.data);
-      // return response.data;
     },
   });
 
-  const handleAcceptAllOrders = () => {
-    data?.orders.forEach((order: Order) => {
-      updateOrder(order.id);
-      console.log("accepting an order" + order.id);
-    });
+  const handleAcceptAllOrders = async () => {
+    for (const order of data?.orders || []) {
+      await updateOrder(order.id);
+    }
   };
 
   let totalPages;
   if (data) {
-    totalPages = Math.ceil(data?.totalCount / limit);
+    totalPages = Math.ceil(data?.totalCount / LIMIT);
   }
 
   const handlePageChange = (page: number) => {
     setPage(page);
   };
   const handleStatusChange = (status: string) => {
-    setFilter(status);
+    setStatus(status);
   };
 
   if (error) {
@@ -87,10 +84,10 @@ export default function Orders() {
 
   return (
     <Flex
-      flexDirection={"column"}
-      background={"gray.100"}
-      padding={"10px"}
-      gap={"30px"}
+      flexDirection="column"
+      background="gray.100"
+      padding="10px"
+      gap="30px"
     >
       <Pages />
 
@@ -110,22 +107,22 @@ export default function Orders() {
       </HStack>
 
       <Flex
-        padding={"20px"}
-        width={"100%"}
-        borderRadius={"26px"}
+        padding="20px"
+        width="100%"
+        borderRadius="26px"
         background="white"
-        justifyContent={"center"}
+        justifyContent="center"
         flexDirection="column"
         boxShadow="lg"
       >
         <HStack>
           <Menu>
             <MenuButton
-              _hover={{ bg: "grey.100" }}
-              rightIcon={<ChevronDownIcon color="white" />}
+              _hover={{ bg: "gray.200" }}
+              rightIcon={<ChevronDownIcon color="black" />}
               as={Button}
             >
-              {filter}
+              {status}
             </MenuButton>
             <MenuList>
               <MenuItem onClick={() => handleStatusChange("одобрено")}>
@@ -146,9 +143,9 @@ export default function Orders() {
       </Flex>
 
       <Flex
-        padding={"20px"}
-        width={"100%"}
-        borderRadius={"22px"}
+        padding="20px"
+        width="100%"
+        borderRadius="22px"
         background="white"
         alignItems="center"
         flexDirection="column"
