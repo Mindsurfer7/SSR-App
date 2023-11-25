@@ -7,12 +7,18 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number | undefined;
   onChange: (page: number) => void;
+  orderIds: Array<string>;
+  onSubmit: () => void;
+  onClean: () => void;
 }
 
 export default function Pagination({
   onChange,
   totalPages,
   currentPage,
+  orderIds,
+  onClean,
+  onSubmit,
 }: PaginationProps) {
   return (
     <HStack justifyContent="space-between" marginTop="10px" width="100%">
@@ -33,6 +39,18 @@ export default function Pagination({
           isDisabled={currentPage === totalPages}
         >
           {">"}
+        </Button>
+      </HStack>
+      <HStack>
+        <Button onClick={onClean} isDisabled={orderIds.length < 1}>
+          Сбросить
+        </Button>
+        <Button
+          colorScheme="teal"
+          isDisabled={orderIds.length === 0}
+          onClick={onSubmit}
+        >
+          Выбрать {orderIds.length} заявок
         </Button>
       </HStack>
     </HStack>

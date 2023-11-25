@@ -1,25 +1,35 @@
 "use client";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
-import { Flex, HStack, MenuButton, Text, useToast } from "@chakra-ui/react";
-import { Menu, MenuList, MenuItem, Button } from "@chakra-ui/react";
-import Pagination, { Pages } from "./Pagination";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import axios from "axios";
+import { ChevronDownIcon, ChevronLeftIcon } from "@chakra-ui/icons";
+import {
+  Button,
+  Flex,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Error } from "../components/error";
+import { Preloader } from "../components/preloader";
 import {
   ErrorResponse,
   OrderAcceptResponse,
   QueryResponse,
 } from "../types/orders";
-import { useState } from "react";
-import { Preloader } from "../components/preloader";
-import { Error } from "../components/error";
+import Pagination, { Pages } from "./Pagination";
 import OrderItem from "./orderItem";
 
-const LIMIT = 10;
+const LIMIT = 2;
 
 export default function Orders() {
   const [status, setStatus] = useState("Выберите статус");
+  const [isToCheck, setIsToCheck] = useState(false);
+  const [orderIds, setOrderIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const toast = useToast();
 
@@ -56,14 +66,14 @@ export default function Orders() {
       });
     },
     onSuccess: (response) => {
-      console.log(response.data);
+      setOrderIds(orderIds.filter((order) => order !== response.data.id));
+      setIsToCheck(false); //по хорошему, конечно, надо бы сделать так, чтобы режим выбора
+      console.log(response.data); //отключался только в случае, если вообше все промисы fulfilled
     },
   });
 
   const handleAcceptAllOrders = async () => {
-    for (const order of data?.orders || []) {
-      await updateOrder(order.id);
-    }
+    for (let i = 0; i < orderIds.length; i++) await updateOrder(orderIds[i]);
   };
 
   let totalPages;
@@ -74,8 +84,30 @@ export default function Orders() {
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const cleanSelection = () => {
+    setOrderIds([]);
+  };
+
+  const onChangeSelectionMode = () => {
+    setIsToCheck((prev) => {
+      if (prev === true) {
+        setOrderIds([]);
+      }
+      return !prev;
+    });
+  };
+
   const handleStatusChange = (status: string) => {
     setStatus(status);
+  };
+
+  const handleSelect = (id: string) => {
+    if (orderIds.includes(id)) {
+      setOrderIds([...orderIds.filter((orderId) => orderId !== id)]);
+    } else {
+      setOrderIds([...orderIds, id]);
+    }
   };
 
   if (error) {
@@ -136,7 +168,10 @@ export default function Orders() {
               </MenuItem>
             </MenuList>
           </Menu>
-          <Button onClick={handleAcceptAllOrders}>
+          <Button
+            colorScheme={isToCheck ? "teal" : "gray"}
+            onClick={onChangeSelectionMode}
+          >
             Выбрать к одобрению/отклонению
           </Button>
         </HStack>
@@ -158,10 +193,14 @@ export default function Orders() {
             <OrderItem
               key={ord.id}
               id={ord.id}
+              tags={ord.tags}
               title={ord.title}
               price={ord.price}
               quantity={ord.quantity}
               status={ord.status}
+              onSelect={handleSelect}
+              isToSelect={isToCheck}
+              isChecked={orderIds.includes(ord.id)}
             />
           ))
         ) : (
@@ -169,9 +208,12 @@ export default function Orders() {
         )}
 
         <Pagination
+          orderIds={orderIds}
           currentPage={page}
           onChange={handlePageChange}
           totalPages={totalPages}
+          onSubmit={handleAcceptAllOrders}
+          onClean={cleanSelection}
         />
       </Flex>
     </Flex>

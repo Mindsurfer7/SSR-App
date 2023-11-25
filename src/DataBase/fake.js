@@ -6,6 +6,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Web Разработка",
     description: "Description for order 1",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "1XhgggCFlgPhUau5M2pf",
@@ -14,6 +19,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Электроника и гаджеты",
     description: "Description for order 2",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "D4q4NXnIxXxtpZAPG4BH",
@@ -22,6 +32,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Робототехника",
     description: "Description for order 3",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "FFc57rWzrnAW1ytpOB6Z",
@@ -30,6 +45,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Смарт-дом",
     description: "Description for order 4",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "HimZKF9Rb19YTSoVx5O1",
@@ -38,6 +58,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Геймерский набор",
     description: "Description for order 5",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "Osvgv7JIabd8G845KQry",
@@ -46,6 +71,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "VR-опыт",
     description: "Description for order 6",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "Zzepkmt8VVXeVCryoOXR",
@@ -54,6 +84,11 @@ export const fakeOrders = [
     status: "отклонено",
     title: "Образовательные игрушки",
     description: "Description for order 7",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "cobuVKt9ckg7812yquUu",
@@ -62,6 +97,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Стационарный компьютер",
     description: "Description for order 8",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "noCRFuSSZBiouB4EoXVr",
@@ -70,6 +110,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Электронные книги",
     description: "Description for order 9",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "pxszNDUri3PmHiPmkN6V",
@@ -78,6 +123,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Гарнитур для стриминга",
     description: "Description for order 10",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "qFjlVKWnR3BVExaNMzFs",
@@ -86,6 +136,11 @@ export const fakeOrders = [
     status: "отклонено",
     title: "Солнечные батареи",
     description: "Description for order 11",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "t2Rkvz6v95XFxHZ50auf",
@@ -94,6 +149,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Спутниковая навигация",
     description: "Description for order 12",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "tCguBYxS5ykXenU2GT3l",
@@ -102,6 +162,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Фото и видео оборудование",
     description: "Description for order 13",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "wVCNF5kw6QWvGqxmGVtw",
@@ -110,6 +175,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Умные очки",
     description: "Description for order 14",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "wXGZ2aMk4ZocNwrrnAQ6",
@@ -118,6 +188,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Робот-пылесос",
     description: "Description for order 15",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "xFd9d3pta46nDl5oYJM8",
@@ -126,6 +201,11 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Смартфон нового поколения",
     description: "Description for order 16",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "gh111",
@@ -134,6 +214,11 @@ export const fakeOrders = [
     status: "отклонено",
     title: "Безопасность в интернете",
     description: "Description for order 17",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "ij212",
@@ -142,6 +227,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Суперкомпьютер",
     description: "Description for order 18",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "kl313",
@@ -150,6 +240,16 @@ export const fakeOrders = [
     status: "на проверке",
     title: "Игровая консоль",
     description: "Description for order 19",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "mn4aa2wW14",
@@ -158,6 +258,11 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Экологичная электроника",
     description: "Description for order 20",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "gh1ceqzqc11",
@@ -166,6 +271,11 @@ export const fakeOrders = [
     status: "отклонено",
     title: "Беспроводные наушники",
     description: "Description for order 21",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
   {
     id: "ij2sssxqxw12",
@@ -174,5 +284,10 @@ export const fakeOrders = [
     status: "одобрено",
     title: "Искусственный интеллект",
     description: "Description for order 22",
+    tags: {
+      geo: ["РФ"],
+      types: ["Пост", "Видео"],
+      other: ["Бизнес и Стартапы", "Криптовалюты"],
+    },
   },
 ];

@@ -8,7 +8,9 @@ import {
   SunIcon,
 } from "@chakra-ui/icons";
 import { Box, Flex, HStack, Stack, Tag, Text, Badge } from "@chakra-ui/react";
-import { Status } from "../types/orders";
+import { Status, Tags } from "../types/orders";
+import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 
 interface ItemProps {
   id: string;
@@ -17,9 +19,22 @@ interface ItemProps {
   quantity: number;
   status: Status;
   description?: string;
+  onSelect: (id: string) => void;
+  isToSelect: boolean;
+  isChecked: boolean;
+  tags: Tags;
 }
 
-export default function OrderItem({ title, price, status }: ItemProps) {
+export default function OrderItem({
+  id,
+  title,
+  price,
+  tags,
+  status,
+  isToSelect,
+  isChecked,
+  onSelect,
+}: ItemProps) {
   const bgColors = {
     "на проверке": "#FFDEAD",
     одобрено: "#00FF00",
@@ -34,13 +49,18 @@ export default function OrderItem({ title, price, status }: ItemProps) {
       background="white"
       boxShadow="0px 8px 20px rgba(0, 0, 0, 0.2)"
     >
-      <Flex alignItems="center" justifyContent="space-between">
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        position="relative"
+      >
         <Stack>
           <HStack
             marginBottom="20px"
             spacing={4}
             direction="row"
             alignItems="center"
+            width="100%"
           >
             <EmailIcon boxSize={4} />
             <Text fontSize="md">~1</Text>
@@ -51,6 +71,19 @@ export default function OrderItem({ title, price, status }: ItemProps) {
             <StarIcon boxSize={4} />
             <Text fontSize="md">50%</Text>
           </HStack>
+
+          {isToSelect && (
+            <Checkbox
+              position="absolute"
+              top="5px"
+              right="5px"
+              onChange={() => {
+                onSelect(id);
+              }}
+              isChecked={isChecked}
+            />
+          )}
+
           <HStack>
             <InfoIcon boxSize={6} color={"blue.500"} />
             <Text fontWeight="bold" opacity={0.5}>
@@ -83,54 +116,46 @@ export default function OrderItem({ title, price, status }: ItemProps) {
               </Badge>
             </HStack>
           </Flex>
-          <HStack gap="5px">
-            <Tag
-              as="button"
-              size="md"
-              variant="solid"
-              color="black"
-              background="gray.200"
-              marginRight="15px"
-            >
-              Рф
-            </Tag>
-            <Tag
-              as="button"
-              size="md"
-              variant="solid"
-              color="black"
-              background="gray.200"
-            >
-              Пост
-            </Tag>
-            <Tag
-              as="button"
-              size="md"
-              variant="solid"
-              background="gray.200"
-              marginRight="15px"
-              color="black"
-            >
-              Видео
-            </Tag>
-            <Tag
-              background="gray.200"
-              as="button"
-              size="md"
-              variant="solid"
-              color="black"
-            >
-              Бизнес и стартапы
-            </Tag>
-            <Tag
-              as="button"
-              size="md"
-              variant="solid"
-              background="gray.200"
-              color="black"
-            >
-              Криптовалюты
-            </Tag>
+          <HStack gap="15px">
+            <HStack gap="5px">
+              {tags.geo.map((tag) => (
+                <Tag
+                  as="button"
+                  size="md"
+                  variant="solid"
+                  color="black"
+                  background="gray.200"
+                >
+                  {tag}
+                </Tag>
+              ))}
+            </HStack>
+            <HStack gap="5px">
+              {tags.types.map((tag) => (
+                <Tag
+                  as="button"
+                  size="md"
+                  variant="solid"
+                  color="black"
+                  background="gray.200"
+                >
+                  {tag}
+                </Tag>
+              ))}
+            </HStack>
+            <HStack gap="5px">
+              {tags.other.map((tag) => (
+                <Tag
+                  as="button"
+                  size="md"
+                  variant="solid"
+                  color="black"
+                  background="gray.200"
+                >
+                  {tag}
+                </Tag>
+              ))}
+            </HStack>
           </HStack>
         </Stack>
         {price && (

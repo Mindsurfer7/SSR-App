@@ -1,5 +1,14 @@
-import Image from "next/image";
+import { Box, Flex } from "@chakra-ui/react";
 
 export default function Home() {
-  return <main>home</main>;
+  return (
+    <Flex
+      height="100vh"
+      width="100%"
+      alignItems="center"
+      backgroundColor="gray.300"
+    >
+      <Box as="span">Главная Страница</Box>
+    </Flex>
+  );
 }
